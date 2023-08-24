@@ -1,0 +1,21 @@
+{
+    "description": "Response for operation unauthorized",
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "status": {
+                "type": "number",
+                "example": 401
+            },
+            "message": {
+                "type": "string",
+                "example": "Unauthorized"
+            } 
+          }
+        }
+      }
+    }
+  }
+  

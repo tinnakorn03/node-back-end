@@ -1,0 +1,28 @@
+{
+    "tags":[
+       "Authentication"
+    ],
+    "description":"Creates a new item",
+    "requestBody":{
+       "description":"Request parameters in JSON format",
+       "required":true,
+       "content":{
+          "application/json":{
+             "schema":{
+               "$ref":"../../schemas/user/Request/register.json"
+             }
+          }
+       }
+    },
+   "responses":{
+      "200":{
+         "$ref":"../../responses/user.success/userRegister.json"
+      },
+      "202":{
+         "$ref":"../../responses/success-accepted.json"
+      }, 
+      "500":{
+         "$ref":"../../responses/internal-server-error.json"
+      }
+   }
+ }

@@ -1,0 +1,43 @@
+{
+    "tags":[
+       "Orders"
+    ],
+    "description":"Get order items",
+    "parameters": [ 
+        {
+            "name":"page",
+            "in":"query",
+            "schema":{
+                "type":"number"
+            },
+            "required":true,
+            "example":1
+        },
+        {
+            "name":"size",
+            "in":"query",
+            "schema":{
+                "type":"number"
+            },
+            "required":true,
+            "example":10
+        }
+    ],
+    "responses":{
+        "200":{
+            "$ref":"../../responses/orders.success/getOrders.json"
+        },
+        "202":{
+            "$ref":"../../responses/success-accepted.json"
+        }, 
+        "401":{
+            "$ref":"../../responses/unauthorized.json"
+        },
+        "404":{
+            "$ref":"../../responses/not-found.json"
+        }, 
+        "500":{
+            "$ref":"../../responses/internal-server-error.json"
+        }
+    }
+ }

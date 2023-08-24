@@ -1,0 +1,57 @@
+{
+    "type": "object",
+    "required": [
+        "userId",
+        "total_qty",
+        "total_price",
+        "orders"
+    ],
+    "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "total_qty": {
+          "type": "number",
+          "minimum": 1
+        },
+        "total_price": {
+          "type": "number",
+          "minimum": 0.01
+        },
+        "orders": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+                "product_id",
+                "product_name",
+                "description",
+                "quantity",
+                "price"
+            ],
+            "properties": {
+                "product_id": {
+                    "type": "string"
+                },
+                "product_name": {
+                    "type": "string"
+                },
+                "imageBase64": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "quantity": {
+                    "type": "number",
+                    "minimum": 1
+                },
+                "price": {
+                    "type": "number",
+                    "minimum": 0.01
+                }
+            }
+          }
+        }
+    }
+}

@@ -1,0 +1,23 @@
+{
+    "description": "Response for operation successful",
+    "content": {
+     "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "status": {
+                "type": "number",
+                "example": 200
+            },
+            "message": {
+                "type": "string",
+                "example": "Successful"
+            },
+            "data": {
+              "$ref": "../../schemas/user/Response/token.json"
+            }
+          }
+        }
+      }
+    }  
+  }

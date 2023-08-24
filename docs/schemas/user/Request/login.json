@@ -1,0 +1,17 @@
+{
+   "type":"object",
+   "required":[
+      "user", 
+      "password"
+   ],
+   "properties":{
+      "user":{
+         "type":"string",
+         "description":"Can be either email or mobile."
+      },
+      "password":{
+         "type":"string",
+         "example":"examplePassword123"
+      }
+   }
+}

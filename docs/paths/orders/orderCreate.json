@@ -1,0 +1,34 @@
+{
+    "tags":[
+       "Orders"
+    ],
+    "description":"Creates a new item",
+    "requestBody":{
+        "description":"Request parameters in JSON format",
+        "required":true,
+        "content":{
+            "application/json":{
+                "schema":{
+                    "$ref":"../../schemas/orders/Request/createOrder.json"
+                }
+            }
+        }
+    },
+    "responses":{
+        "200":{
+            "$ref":"../../responses/orders.success/create.json"
+        },
+        "202":{
+            "$ref":"../../responses/success-accepted.json"
+        }, 
+        "401":{
+            "$ref":"../../responses/unauthorized.json"
+        },
+        "404":{
+            "$ref":"../../responses/not-found.json"
+        }, 
+        "500":{
+            "$ref":"../../responses/internal-server-error.json"
+        }
+    }
+ }

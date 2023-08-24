@@ -1,0 +1,20 @@
+{
+    "description": "Response for operation internal server error",
+    "content": {
+      "application/json": {
+            "schema": {
+            "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "number",
+                        "example": 500
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Internal Server Error"
+                    }
+                }
+            }
+        }
+    }  
+}

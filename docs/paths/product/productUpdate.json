@@ -1,0 +1,34 @@
+{
+    "tags":[
+       "Products"
+    ],
+    "description":"Update item",
+    "requestBody":{
+        "description":"Request parameters in JSON format",
+        "required":true,
+        "content":{
+            "application/json":{
+                "schema":{
+                    "$ref":"../../schemas/product/Request/update.json"
+                }
+            }
+        }
+    },
+    "responses":{
+        "200":{
+            "$ref":"../../responses/product.success/update.json"
+        },
+        "401":{
+            "$ref":"../../responses/unauthorized.json"
+        },
+        "404":{
+            "$ref":"../../responses/not-found.json"
+        },
+        "202":{
+            "$ref":"../../responses/success-accepted.json"
+        }, 
+        "500":{
+            "$ref":"../../responses/internal-server-error.json"
+        }
+    }
+ }

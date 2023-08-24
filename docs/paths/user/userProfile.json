@@ -1,0 +1,30 @@
+{
+    "tags":[
+       "Authentication"
+    ],
+    "description":"Fetch item details",
+    "parameters": [ 
+        {
+         "name":"userId",
+         "in":"path",
+         "schema":{
+            "type":"string"
+         },
+         "required":true
+      }
+    ],
+    "responses":{
+       "200":{
+          "$ref":"../../responses/user.success/userGetProfile.json"
+       },
+       "401":{
+         "$ref":"../../responses/unauthorized.json"
+       },
+       "403":{
+         "$ref":"../../responses/forbidden.json"
+       },
+       "500":{
+          "$ref":"../../responses/internal-server-error.json"
+       }
+    }
+}

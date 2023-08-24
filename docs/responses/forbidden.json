@@ -1,0 +1,21 @@
+{
+    "description": "Response for operation forbidden",
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "status": {
+                "type": "number",
+                "example": 403
+            },
+            "message": {
+                "type": "string",
+                "example": "No token provided!"
+            } 
+          }
+        }
+      }
+    }
+  }
+  

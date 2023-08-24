@@ -1,0 +1,28 @@
+{
+   "tags":[
+      "Authentication"
+   ],
+   "description":"Creates a new item",
+   "requestBody":{
+      "description":"Request parameters in JSON format",
+      "required":true,
+      "content":{
+         "application/json":{
+            "schema":{
+               "$ref":"../../schemas/user/Request/login.json"
+            }
+         }
+      }
+   },
+   "responses":{
+      "200":{
+         "$ref":"../../responses/user.success/userLogin.json"
+      }, 
+      "404":{
+         "$ref":"../../responses/not-found.json"
+      },
+      "500":{
+         "$ref":"../../responses/internal-server-error.json"
+      }
+   }
+}

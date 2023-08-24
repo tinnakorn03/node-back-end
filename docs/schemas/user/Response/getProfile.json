@@ -1,0 +1,30 @@
+{
+    "type": "object",
+    "properties": {
+      "userId": {
+        "type": "integer",
+        "example": 644
+      },
+      "firstName": {
+        "type": "string",
+        "example": "Tester"
+      },
+      "lastName": {
+        "type": "string",
+        "example": "Dev"
+      },
+      "mobile": {
+        "type": "string",
+        "example": "654721982"
+      },
+      "email": {
+        "type": "string",
+        "example": "Gmail"
+      },
+      "img": {
+        "type": "string",
+        "example": "undefined"
+      }
+    }
+  }
+  

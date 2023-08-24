@@ -1,0 +1,33 @@
+{
+    "tags":[
+       "Orders"
+    ],
+    "description":"Delete order",
+    "parameters": [ 
+        {
+            "name":"transactionNo",
+            "in":"path",
+            "schema":{
+                "type":"string"
+            },
+            "required":true
+        }
+    ],
+    "responses":{
+        "200":{
+            "$ref":"../../responses/orders.success/delete.json"
+        },
+        "202":{
+            "$ref":"../../responses/success-accepted.json"
+        }, 
+        "401":{
+            "$ref":"../../responses/unauthorized.json"
+        },
+        "404":{
+            "$ref":"../../responses/not-found.json"
+        }, 
+        "500":{
+            "$ref":"../../responses/internal-server-error.json"
+        }
+    }
+ }

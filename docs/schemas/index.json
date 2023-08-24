@@ -1,0 +1,17 @@
+{  
+  "/user/login": {
+    "$ref": "./user/Request/login.json"
+  },
+  "/user/request": {
+    "$ref": "./user/Request/register.json"
+  },
+  "[create] /product": {
+    "$ref": "./product/Request/create.json"
+  },
+  "[update] /product": {
+    "$ref": "./product/Request/update.json"
+  },
+  "[create] /orders": {
+    "$ref": "./orders/Request/createOrder.json"
+  } 
+}

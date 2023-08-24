@@ -1,0 +1,28 @@
+{
+    "description": "Response for operation success accepted ",
+    "content": {
+     "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "status": {
+                "type": "number",
+                "example": 202
+            },
+            "message": {
+                "type": "string",
+                "example": "Success Accepted"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }  
+  }

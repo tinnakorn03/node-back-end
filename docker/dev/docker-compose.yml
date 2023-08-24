@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  node-back-end-dev:
+    build:
+      context: ../../
+      dockerfile: docker/dev/Dockerfile
+    image: node-back-end-dev
+    ports:
+      - '9092:9080'
+    env_file:
+      - ../../.env.dev
+    networks:
+      - test_origin_default
+
+networks:
+  test_origin_default:
+    external: true

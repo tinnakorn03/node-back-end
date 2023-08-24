@@ -1,0 +1,27 @@
+{
+   "openapi":"3.0.0",
+   "info":{
+      "title":"Origin docs API",
+      "description":"API For Origin Test",
+      "version":"1.0.1"
+   }, 
+   "components":{ 
+      "schemas":{
+         "$ref":"./schemas/index.json"
+      },
+      "responses":{
+         "$ref":"./responses/index.json"
+      },
+      "securitySchemes": {
+         "bearerAuth": {
+           "type": "http",
+           "scheme": "bearer",
+           "bearerFormat": "JWT"
+         }
+      }
+   }, 
+   "security": [  ],
+   "paths":{
+      "$ref":"./paths/index.json"
+   }
+}

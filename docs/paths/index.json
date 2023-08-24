@@ -1,0 +1,66 @@
+{ 
+   "/user/profile/{userId}":{
+      "get":{
+         "security": [ { "bearerAuth": [] } ],
+         "$ref":"./user/userProfile.json"
+      },
+      "delete":{
+         "security": [ { "bearerAuth": [] } ],
+         "$ref":"./user/userProfile.json"
+      }
+   }, 
+   "/user/login":{
+      "post":{
+         "$ref":"./user/userLogin.json"
+      } 
+   },   
+   "/user/register":{
+      "post":{
+         "$ref":"./user/userRegister.json"
+      }
+   }, 
+   "/product":{
+      "get":{
+         "security": [ { "bearerAuth": [] } ],
+         "$ref":"./product/productGetAll.json"
+      },
+      "post":{
+         "security": [ { "bearerAuth": [] } ],
+         "$ref":"./product/productCreate.json"
+      },
+      "put":{
+         "security": [ { "bearerAuth": [] } ],
+         "$ref":"./product/productUpdate.json"
+      } 
+   },   
+   "/product/{product_id}":{
+      "get":{
+         "security": [ { "bearerAuth": [] } ],
+         "$ref":"./product/productGetProductId.json"
+      },
+      "delete":{
+         "security": [ { "bearerAuth": [] } ],
+         "$ref":"./product/productDelete.json"
+      }
+   },
+   "/orders":{
+      "get":{
+         "security": [ { "bearerAuth": [] } ],
+         "$ref":"./orders/orderGetAll.json"
+      },
+      "post":{
+         "security": [ { "bearerAuth": [] } ],
+         "$ref":"./orders/orderCreate.json"
+      } 
+   },  
+   "/orders/{transactionNo}":{
+      "get":{
+         "security": [ { "bearerAuth": [] } ],
+         "$ref":"./orders/orderGetTransactionNo.json"
+      },
+      "delete":{
+         "security": [ { "bearerAuth": [] } ],
+         "$ref":"./orders/orderDelete.json"
+      }
+   } 
+}
