@@ -2,7 +2,8 @@
    "type":"object",
    "required":[
       "user", 
-      "password"
+      "password",
+      "isRememberMe"
    ],
    "properties":{
       "user":{
@@ -12,6 +13,9 @@
       "password":{
          "type":"string",
          "example":"examplePassword123"
+      },
+      "isRememberMe": {
+         "type": "boolean"
       }
    }
 }

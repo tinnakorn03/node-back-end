@@ -2,8 +2,12 @@
     "type": "object",
     "properties": {
       "userId": {
-        "type": "integer",
-        "example": 644
+        "type": "string",
+        "example": "202308_000001"
+      },
+      "username": {
+        "type": "string",
+        "example": "admin"
       },
       "firstName": {
         "type": "string",
@@ -15,15 +19,22 @@
       },
       "mobile": {
         "type": "string",
-        "example": "654721982"
+        "example": "0911111111"
       },
       "email": {
         "type": "string",
-        "example": "Gmail"
+        "example": "user@example.com"
       },
       "img": {
         "type": "string",
-        "example": "undefined"
+        "example": "data:image/png;base64,iVBORw0KGgoAAAAN....."
+      }, 
+      "isPdpa": {
+        "type": "boolean"
+      },
+      "role": {
+        "type": "string",
+        "example": "admin"
       }
     }
   }

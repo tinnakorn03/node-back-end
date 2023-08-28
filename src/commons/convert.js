@@ -19,13 +19,13 @@ const schemaToJoi = (openApiSchema) => {
         } else {
             switch (property.type) {
                 case 'string':
-                    joiValidator = Joi.string();
+                    joiValidator = Joi.string().allow('');
                     break;
                 case 'integer':
-                    joiValidator = Joi.number().integer();
+                    joiValidator = Joi.number().integer().allow(0);
                     break;
                 case 'number':
-                    joiValidator = Joi.number();
+                    joiValidator = Joi.number().allow(0.0);
                     break;
                 case 'boolean':
                     joiValidator = Joi.boolean();

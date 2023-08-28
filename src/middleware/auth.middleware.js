@@ -1,14 +1,13 @@
 const { secret } = require('./../configs')
 const jwt = require('jsonwebtoken')
 const { result_error} = require("./../commons/convert");
- 
+
 module.exports = async (ctx, next) => { 
    let { authorization } = ctx.request.headers
 
    if (!authorization) {
       ctx.status = 403 
       ctx.body = result_error(403,{name: 'Check Token',message: 'Check if you have given the token or not.'}) 
-     
       return
    }
 
@@ -24,12 +23,16 @@ module.exports = async (ctx, next) => {
    
    return jwt.verify(token, secret, (err, decoded) => {
       if (err) {
-         ctx.status = 401 
-         ctx.body = result_error(401,{name: 'Unauthorized',message: 'Your token is invalid. or expired'})  
+         if (err.name === 'TokenExpiredError') {
+            ctx.status = 401 
+            ctx.body = result_error(401,{name: 'Token Expired', message: 'Your token has expired. Please log in again.'})
+         } else {
+            ctx.status = 401 
+            ctx.body = result_error(401,{name: 'Unauthorized',message: 'Your token is invalid.'})
+         }
          return
       }
       ctx.request.adminUser = decoded
       return next()
    })
 }
-

@@ -1,12 +1,14 @@
 {
     "type": "object",
     "required": [
-      "firstName",
-      "lastName",
-      "email",  
-      "password"
+      "username", 
+      "password",
+      "isPdpa"
     ], 
     "properties": {
+      "username": {
+        "type": "string"
+      },
       "firstName": {
         "type": "string"
       },
@@ -25,7 +27,10 @@
       },
       "password": {
         "type": "string"
-      } 
+      },
+      "isPdpa": {
+        "type": "boolean"
+      }
     }
   }
   

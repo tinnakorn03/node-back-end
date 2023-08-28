@@ -12,29 +12,34 @@ const saltRounds = 10;
 module.exports = {
   async logIn(ctx, _next) {
     try {
-        const { user, password } = ctx.request.body;
+        const { user, password, isRememberMe } = ctx.request.body;
 
-        // Determine if 'user' is an email or mobile
+        // Determine if 'user' is an email or username
         const userRef = ref(firebase, 'users');  
         let userQuery;
         
         if (user.includes('@')) {
           userQuery = query(userRef, orderByChild('email'), equalTo(user));
         } else {
-          userQuery = query(userRef, orderByChild('mobile'), equalTo(user));
+          userQuery = query(userRef, orderByChild('username'), equalTo(user));
         }
 
         const snapshot = await get(userQuery);
         if (snapshot.exists()) {
-          const userData = Object.values(snapshot.val())[0];  // Extract the first matched user data
+          const userData = Object.values(snapshot.val())[0];
 
           const passwordMatch = await bcrypt.compare(password, userData.password);
           if (!passwordMatch) {
             ctx.body = result_error(403, "Incorrect password");
             return;
           }
-
-          const token = jwt.sign(JSON.stringify(userData), secret);
+          delete userData.password; 
+          const tokenOptions = {};
+          if (isRememberMe) {
+            tokenOptions.expiresIn = '30m';
+          }
+          
+          const token = jwt.sign({ data: userData }, secret, tokenOptions);
           ctx.body = result(200, { token });
         } else {
           ctx.body = result_error(404, "User not found");
@@ -46,17 +51,27 @@ module.exports = {
   },
 
   async register(ctx, _next) {
-    try {
-        const { email, mobile, firstName, lastName, img, password } = ctx.request.body;
+    try { 
+        const { username, email, mobile, firstName, lastName, img, password, isPdpa } = ctx.request.body;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
         const userRef = ref(firebase, 'users');  
-        const emailQuery = query(userRef, orderByChild('email'), equalTo(email));
 
-        const snapshot = await get(emailQuery);
+        //Check E-mail
+        // const emailQuery = query(userRef, orderByChild('email'), equalTo(email));
+
+        // const snapshot = await get(emailQuery);
+
+        // if (snapshot.exists()) {
+        //     ctx.body = result(202, { message: 'This email is already in use. Please use a different one.' });
+        //     return;
+        // }
+        const usernameQuery = query(userRef, orderByChild('username'), equalTo(username));
+
+        const snapshot = await get(usernameQuery);
 
         if (snapshot.exists()) {
-            ctx.body = result(202, { message: 'This email is already in use. Please use a different one.' });
+            ctx.body = result(202, { message: 'This username is already in use. Please use a different one.' });
             return;
         }
 
@@ -73,12 +88,15 @@ module.exports = {
         // Create a new user  
         await set(specificUserRef, {
             userId: newUserId,  
-            firstName,
-            lastName,
-            email,
-            mobile,
-            img,
-            password: hashedPassword
+            username,
+            firstName: firstName || '', 
+            lastName: lastName || '', 
+            email: email || '',  
+            mobile: mobile || '',  
+            img: img || '',    
+            password: hashedPassword,
+            isPdpa,
+            role: (username === 'admin' || username === 'dev') ? 'admin' : 'customer' //fix
         });
 
         ctx.body = result(200, { message: "Registration successful", userId: newUserId });  
@@ -94,7 +112,7 @@ module.exports = {
       const usersRef = ref(firebase, 'users');
       const userQuery = query(usersRef, orderByChild('userId'), equalTo(userId));
       const snapshot = await get(userQuery);
-      console.log(snapshot.val());
+     
 
       if (!snapshot.exists()) {
         ctx.body = result_error(404, "User not found");
@@ -102,6 +120,7 @@ module.exports = {
       }
       
       const userData = Object.values(snapshot.val())[0];
+      delete userData.password;
 
       ctx.body = result(200, userData);
 
