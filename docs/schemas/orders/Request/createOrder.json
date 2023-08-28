@@ -4,6 +4,7 @@
         "userId",
         "total_qty",
         "total_price",
+        "deliverry_price",
         "orders"
     ],
     "properties": {
@@ -17,6 +18,10 @@
         "total_price": {
           "type": "number",
           "minimum": 0.01
+        },
+        "deliverry_price": {
+            "type": "number",
+            "minimum": 0
         },
         "orders": {
           "type": "array",
@@ -36,7 +41,7 @@
                 "product_name": {
                     "type": "string"
                 },
-                "imageBase64": {
+                "image": {
                     "type": "string"
                 },
                 "description": {
@@ -45,6 +50,9 @@
                 "quantity": {
                     "type": "number",
                     "minimum": 1
+                },
+                "isDelete": {
+                    "type": "boolean" 
                 },
                 "price": {
                     "type": "number",

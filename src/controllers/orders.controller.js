@@ -1,8 +1,34 @@
 const { secret, firebase } = require('../configs');
-const { query, orderByChild, equalTo, child, get, ref, push, set, remove } = require("@firebase/database");
+const { query, orderByChild, equalTo, child, get, update, ref, push, set, remove } = require("@firebase/database");
 const { result, result_error} = require("../commons/convert"); 
 const { getRunningNoOrderKey } = require('../commons/calculate');
 const { getPagination } = require('../utils/pagination.util')
+
+
+async function updateProductQuantity(product_id, orderedQuantity) {
+    try {
+        const productRef = ref(firebase, 'products/' + product_id);
+    
+        // Fetch the current product data
+        const productSnapshot = await get(productRef);
+        if (!productSnapshot.exists()) {
+            throw new Error("Product not found");
+        }
+
+        const currentProductData = productSnapshot.val();
+        const updatedQuantity = currentProductData.quantity - orderedQuantity;
+
+        if (updatedQuantity < 0) {
+            throw new Error("Ordered quantity exceeds available stock");
+        }
+
+        // Update the product quantity in the database without touching other fields
+        await update(productRef, { quantity: updatedQuantity });
+
+    } catch (err) {
+        throw err;
+    }
+}
 
 
 module.exports = {
@@ -12,6 +38,7 @@ module.exports = {
                 userId,
                 total_qty,
                 total_price, 
+                deliverry_price,
                 orders
             } = ctx.request.body;
     
@@ -41,10 +68,11 @@ module.exports = {
                 status: 'อยู่ระหว่างการจัดส่ง',
                 total_qty,
                 total_price,
+                deliverry_price,
                 orders: orders.map(order => ({
                     product_id: order.product_id,
                     product_name: order.product_name,
-                    image: order.imageBase64,
+                    image: order.image,
                     description: order.description,
                     quantity: order.quantity,
                     price: order.price
@@ -52,6 +80,9 @@ module.exports = {
             };
     
             await set(specificOrdersRef, orderData);
+            for (let order of orders) {
+                await updateProductQuantity(order.product_id, order.quantity);
+            }
             ctx.body = result(200, { message: "Order creation successful", transactionNo: transactionNo });
     
         } catch (err) {

@@ -2,8 +2,7 @@ const { secret } = require('./../configs')
 const jwt = require('jsonwebtoken')
 const { result_error} = require("./../commons/convert");
  
-module.exports = async (ctx, next) => {
-   console.log('ctx.request.headers : ',ctx.request.headers)
+module.exports = async (ctx, next) => { 
    let { authorization } = ctx.request.headers
 
    if (!authorization) {

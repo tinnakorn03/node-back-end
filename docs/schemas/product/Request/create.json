@@ -22,29 +22,8 @@
         "minimum": 0
       },
       "image": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "lastModified": {
-            "type": "number"
-          },
-          "lastModifiedDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "webkitRelativePath": {
-            "type": "string"
-          },
-          "size": {
-            "type": "number"
-          },
-          "type": {
-            "type": "string"
-          }
-        },
-        "required": ["name", "lastModified", "lastModifiedDate", "size", "type"]
+        "type": "string",
+        "description": "Base64 encoded image content"
       }
     }
 }

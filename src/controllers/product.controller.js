@@ -1,5 +1,5 @@
 const { secret, firebase } = require('../configs');
-const { query, orderByChild, equalTo, child, get, ref, push, set, remove } = require("@firebase/database");
+const { query, orderByChild, equalTo, child, get, update, ref, push, set, remove } = require("@firebase/database");
 const { result, result_error} = require("../commons/convert"); 
 const { getRunningNoProductKey } = require('../commons/calculate');
 const { getPagination } = require('../utils/pagination.util')
@@ -44,11 +44,8 @@ module.exports = {
                 ctx.body = result_error(404, "Product not found");
                 return;
             }
-    
-            // Get the product data without the Firebase key
-            const productData = Object.values(productSnapshot.val())[0];
             
-            ctx.body = result(200, productData);
+            ctx.body = result(200, productSnapshot.val());
     
         } catch (err) {
             ctx.body = result_error(500, err);
@@ -56,13 +53,8 @@ module.exports = {
     }, 
     async createProduct(ctx, _next) {
         try {
-            const { product_name, description, quantity, price } = ctx.request.body;
-            let imageBase64 = "";
-            const imageFile = ctx.request.files && ctx.request.files.image; 
-            if (imageFile) {
-                imageBase64 = fs.readFileSync(imageFile, 'base64');
-            } 
-
+            const { product_name, description, quantity, price, image } = ctx.request.body;
+            
             // Create a reference to the products collection
             const productRef = ref(firebase, 'products');
         
@@ -79,7 +71,7 @@ module.exports = {
             await set(specificProductRef, {
                 product_id: productId,
                 product_name,
-                image: imageBase64,
+                image,
                 description,
                 quantity,
                 price,
@@ -94,8 +86,8 @@ module.exports = {
     }, 
     async updateProduct(ctx, _next) {
         try {
-            const { product_id, product_name, description, quantity, price } = ctx.request.body;
-    
+            const { product_id, product_name, description, quantity, price, image } = ctx.request.body;
+ 
             const productRef = ref(firebase, 'products/' + product_id);
     
             // Check if the product exists
@@ -104,39 +96,36 @@ module.exports = {
                 ctx.body = result_error(404, "Data Not Found");
                 return;
             }
-    
-            // Optionally handle image update if provided
-            let imageBase64 = null;
-            if (ctx.request.files && ctx.request.files.image) {
-                const imageFile = ctx.request.files.image;
-                imageBase64 = fs.readFileSync(imageFile.path, 'base64');
-            }
-    
+     
             const updates = {
                 product_name,
                 description,
                 quantity,
                 price,
+                image
             };
-    
-            if (imageBase64) {
-                updates.image = imageBase64;
-            }
-    
-            await set(productRef, updates, true);  
+     
+            await update(productRef, updates);
             ctx.body = result(200, { message: "Product update successful", productId: product_id });
     
         } catch (err) {
             ctx.body = result_error(500, err);
         }
-    },
+    }, 
     async deleteProduct(ctx, _next) {
         try {
-            const { product_id } = ctx.request.params.product_id;
+            const product_id = ctx.request.params.product_id;  // Get product_id from the params
     
             const productRef = ref(firebase, 'products/' + product_id);
+            
+            // Fetch the current product data to check its existence
+            const productSnapshot = await get(productRef);
+            if (!productSnapshot.exists()) {
+                throw new Error("Product not found");
+            }
     
-            await set(productRef, { isDelete: true }, true);  // mark as deleted
+            // Update the isDelete property to true while keeping other properties unchanged
+            await update(productRef, { isDelete: true });
     
             ctx.body = result(200, { message: "Product deleted successfully" });
     
@@ -144,4 +133,5 @@ module.exports = {
             ctx.body = result_error(500, err);
         }
     }
+    
 };

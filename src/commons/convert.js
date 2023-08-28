@@ -13,42 +13,47 @@ const schemaToJoi = (openApiSchema) => {
         let isRequired = requiredProperties.has(propertyName);
         let joiValidator;
 
-        switch (property.type) {
-            case 'string':
-                joiValidator = Joi.string();
-                break;
-            case 'integer':
-                joiValidator = Joi.number().integer();
-                break;
-            case 'number':
-                joiValidator = Joi.number();
-                break;
-            case 'boolean':
-                joiValidator = Joi.boolean();
-                break;
-            case 'object':
-                joiValidator = Joi.object(schemaToJoi(property));
-                break;
-            case 'array':
-                joiValidator = Joi.array().items(schemaToJoi(property.items));
-                break;
-            case 'date':
-                joiValidator = Joi.date();
-                break;
-            case 'binary':
-                joiValidator = Joi.binary();
-                break;
-            case 'symbol':
-                joiValidator = Joi.symbol();
-                break;
-            case 'function':
-                joiValidator = Joi.func();
-                break;
-            case 'alternatives':
-                joiValidator = Joi.alternatives();
-                break;
-            default:
-                throw new Error(`Unsupported type ${property.type}`);
+        if (property.oneOf) {
+            const alternatives = property.oneOf.map(subSchema => schemaToJoi({ properties: { [propertyName]: subSchema } })[propertyName]);
+            joiValidator = Joi.alternatives().try(...alternatives);
+        } else {
+            switch (property.type) {
+                case 'string':
+                    joiValidator = Joi.string();
+                    break;
+                case 'integer':
+                    joiValidator = Joi.number().integer();
+                    break;
+                case 'number':
+                    joiValidator = Joi.number();
+                    break;
+                case 'boolean':
+                    joiValidator = Joi.boolean();
+                    break;
+                case 'object':
+                    joiValidator = Joi.object(schemaToJoi(property));
+                    break;
+                case 'array':
+                    joiValidator = Joi.array().items(schemaToJoi(property.items));
+                    break;
+                case 'date':
+                    joiValidator = Joi.date();
+                    break;
+                case 'binary':
+                    joiValidator = Joi.binary();
+                    break;
+                case 'symbol':
+                    joiValidator = Joi.symbol();
+                    break;
+                case 'function':
+                    joiValidator = Joi.func();
+                    break;
+                case 'alternatives':
+                    joiValidator = Joi.alternatives();
+                    break;
+                default:
+                    throw new Error(`Unsupported type ${property.type}`);
+            }
         }
 
         if (isRequired) {
@@ -62,6 +67,7 @@ const schemaToJoi = (openApiSchema) => {
 
     return joiSchema;
 }
+
 
 module.exports = { 
     schemaToJoi,
