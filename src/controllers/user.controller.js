@@ -34,9 +34,9 @@ module.exports = {
             return;
           }
           delete userData.password; 
-          const tokenOptions = {};
+          const tokenOptions = { expiresIn: '30m' };
           if (isRememberMe) {
-            tokenOptions.expiresIn = '30m';
+            tokenOptions.expiresIn = '7d';
           }
           
           const token = jwt.sign({ data: userData }, secret, tokenOptions);
